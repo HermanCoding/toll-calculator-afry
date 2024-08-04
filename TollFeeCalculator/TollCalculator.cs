@@ -43,13 +43,7 @@ namespace TollFeeCalculator
         private bool IsTollFreeVehicle(Vehicle vehicle)
         {
             if (vehicle == null) return false;
-            string vehicleType = vehicle.GetVehicleType();
-            return vehicleType.Equals(TollFreeVehicles.Motorbike.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Tractor.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Emergency.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Foreign.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Military.ToString());
+            return vehicle.TollFreeVehicles();
         } // Vad gör detta behöver troligen bara retunera sant eller falskt inte en massa siffror eller fordon.
 
         public int GetTollFee(DateTime date, Vehicle vehicle)
@@ -96,14 +90,14 @@ namespace TollFeeCalculator
             return false;
         }
 
-        private enum TollFreeVehicles
-        {
-            Motorbike = 0,
-            Tractor = 1,
-            Emergency = 2,
-            Diplomat = 3,
-            Foreign = 4,
-            Military = 5
-        } // Behövs detta?? Kan jag lägga in detta i en klass fordon istället och varje fordon har en variabel om den är tollfree...
+    //    private enum TollFreeVehicles
+    //    {
+    //        Motorbike = 0,
+    //        Tractor = 1,
+    //        Emergency = 2,
+    //        Diplomat = 3,
+    //        Foreign = 4,
+    //        Military = 5
+    //    } // Behövs detta?? Kan jag lägga in detta i en klass fordon istället och varje fordon har en variabel om den är tollfree...
     }
 }

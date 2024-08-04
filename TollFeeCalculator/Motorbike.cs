@@ -2,10 +2,15 @@
 {
     public class Motorbike : Vehicle
     {
-        public string GetVehicleType()
+
+        public string VehicleType()
         {
             return "Motorbike";
+        }
 
+        bool Vehicle.TollFreeVehicles()
+        {
+            return true;
         }
     }
 }
