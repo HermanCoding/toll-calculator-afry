@@ -11,6 +11,7 @@ namespace TollFeeCalculator
         public string GetVehicleType()
         {
             return "Motorbike";
+
         }
     }
 }

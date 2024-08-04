@@ -15,7 +15,7 @@ public class TollCalculator
 
     public int GetTollFee(Vehicle vehicle, DateTime[] dates)
     {
-        DateTime intervalStart = dates[0];
+        DateTime intervalStart = dates[0]; // Första posten i en lista dates
         int totalFee = 0;
         foreach (DateTime date in dates)
         {
@@ -23,7 +23,7 @@ public class TollCalculator
             int tempFee = GetTollFee(intervalStart, vehicle);
 
             long diffInMillies = date.Millisecond - intervalStart.Millisecond;
-            long minutes = diffInMillies/1000/60;
+            long minutes = diffInMillies/1000/60; // refaktorera detta ??
 
             if (minutes <= 60)
             {
@@ -50,7 +50,7 @@ public class TollCalculator
                vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
                vehicleType.Equals(TollFreeVehicles.Foreign.ToString()) ||
                vehicleType.Equals(TollFreeVehicles.Military.ToString());
-    }
+    } // Vad gör detta behöver troligen bara retunera sant eller falskt inte en massa siffror eller fordon.
 
     public int GetTollFee(DateTime date, Vehicle vehicle)
     {
@@ -68,7 +68,7 @@ public class TollCalculator
         else if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59) return 18;
         else if (hour == 17 && minute >= 0 && minute <= 59) return 13;
         else if (hour == 18 && minute >= 0 && minute <= 29) return 8;
-        else return 0;
+        else return 0; // gör om detta så att allt blir intrevall och jag kan ändra både tid och kostnad enkelt.
     }
 
     private Boolean IsTollFreeDate(DateTime date)
@@ -79,7 +79,7 @@ public class TollCalculator
 
         if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) return true;
 
-        if (year == 2013)
+        if (year == 2013) // Ändra så att året är för korrekt år. Hämta från en API!!!
         {
             if (month == 1 && day == 1 ||
                 month == 3 && (day == 28 || day == 29) ||
@@ -104,5 +104,5 @@ public class TollCalculator
         Diplomat = 3,
         Foreign = 4,
         Military = 5
-    }
+    } // Behövs detta?? Kan jag lägga in detta i en klass fordon istället och varje fordon har en variabel om den är tollfree...
 }

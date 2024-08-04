@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Exe</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>ConsoleApplication</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include=".vs\TollCalculator\FileContentIndex\0a45a389-4eb0-4c30-8e8a-a121f1602372.vsidx" />
+    <None Include=".vs\TollCalculator\FileContentIndex\43eb66df-0f27-4a89-99aa-f61298723fe7.vsidx" />
+    <None Include=".vs\TollCalculator\FileContentIndex\b7b088ef-13c9-4916-935e-b27c6b54da83.vsidx" />
+    <None Include=".vs\TollCalculator\FileContentIndex\c7773a13-0d30-46e5-b8cb-652dd2e1d8e2.vsidx" />
+    <None Include=".vs\TollCalculator\v17\.futdcache.v2" />
+    <None Include=".vs\TollCalculator\v17\.suo" />
+    <None Include=".vs\TollCalculator\v17\.wsuo" />
+    <None Include=".vs\TollCalculator\v17\DocumentLayout.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>
