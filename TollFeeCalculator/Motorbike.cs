@@ -1,16 +1,15 @@
 ﻿namespace TollFeeCalculator
 {
-    public class Motorbike : Vehicle
+    public class Motorbike : IVehicle
     {
+        private string _name = "Motorbike";
+        public string VehicleType => _name;
 
-        public string VehicleType()
+        private bool _tollFree = true;
+        public bool TollFreeVehicles
         {
-            return "Motorbike";
-        }
-
-        bool Vehicle.TollFreeVehicles()
-        {
-            return true;
+            get => _tollFree;
+            set => _tollFree = value;
         }
     }
 }

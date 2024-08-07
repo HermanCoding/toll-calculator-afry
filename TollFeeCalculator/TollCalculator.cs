@@ -13,7 +13,7 @@ namespace TollFeeCalculator
          * @return - the total toll fee for that day
          */
 
-        public int GetTollFee(Vehicle vehicle, DateTime[] dates)
+        public int GetTollFee(IVehicle vehicle, DateTime[] dates)
         {
             DateTime intervalStart = dates[0]; // Första posten i en lista dates
             int totalFee = 0;
@@ -40,13 +40,13 @@ namespace TollFeeCalculator
             return totalFee;
         }
 
-        private bool IsTollFreeVehicle(Vehicle vehicle)
+        private bool IsTollFreeVehicle(IVehicle vehicle)
         {
             if (vehicle == null) return false;
-            return vehicle.TollFreeVehicles();
+            return vehicle.TollFreeVehicles;
         } // Vad gör detta behöver troligen bara retunera sant eller falskt inte en massa siffror eller fordon.
 
-        public int GetTollFee(DateTime date, Vehicle vehicle)
+        public int GetTollFee(DateTime date, IVehicle vehicle)
         {
             if (IsTollFreeDate(date) || IsTollFreeVehicle(vehicle)) return 0;
 
