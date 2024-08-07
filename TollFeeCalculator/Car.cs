@@ -6,6 +6,7 @@ namespace TollFeeCalculator
     {
         private string _name = "Car";
         private bool _tollFree = false;
+
         public string VehicleType => _name;
         public bool TollFreeVehicles
         {
