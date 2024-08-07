@@ -23,14 +23,14 @@ namespace TollFeeCalculator
                 int tempFee = GetTollFee(intervalStart, vehicle);
 
                 long diffInMillies = date.Millisecond - intervalStart.Millisecond;
-                long minutes = diffInMillies / 1000 / 60; // refaktorera detta ??
+                long minutes = diffInMillies / 1000 / 60; // refaktorera detta ?? minutes är alltid 0.
 
-                if (minutes <= 60)
+                if (minutes <= 60)  // Det är något fel i beräkningarna här. Testen går inte igenom som tänkt.
                 {
                     if (totalFee > 0) totalFee -= tempFee;
                     if (nextFee >= tempFee) tempFee = nextFee;
                     totalFee += tempFee;
-                }
+                }  
                 else
                 {
                     totalFee += nextFee;

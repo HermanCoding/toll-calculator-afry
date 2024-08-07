@@ -21,13 +21,9 @@ namespace TollFeeCalculatorTest
             };
 
             int expectedTotalFee = 24;
-            int actualTotalFee = 0;
 
             // Act
-            foreach (var date in dates)
-            {
-                actualTotalFee += tollCalc.GetTollFee(date, car);
-            }
+            int actualTotalFee = tollCalc.GetTollFee(car, dates);
 
             // Assert
             Assert.Equal(expectedTotalFee, actualTotalFee);

@@ -3,7 +3,7 @@
     public class Motorbike : IVehicle
     {
         private string _name = "Motorbike";
-        private bool _tollFree = false;
+        private bool _tollFree = true;
 
         public string VehicleType => _name;
         public bool TollFreeVehicles
