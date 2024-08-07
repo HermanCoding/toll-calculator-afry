@@ -6,7 +6,7 @@
         private bool _tollFree = true;
 
         public string VehicleType => _name;
-        public bool TollFreeVehicles
+        public bool IsTollFreeVehicle
         {
             get => _tollFree;
             set => _tollFree = value;

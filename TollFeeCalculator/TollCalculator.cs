@@ -40,15 +40,14 @@ namespace TollFeeCalculator
             return totalFee;
         }
 
-        private bool IsTollFreeVehicle(IVehicle vehicle)
+        private bool TollFreeVehicle(IVehicle vehicle)
         {
-            if (vehicle == null) return false;
-            return vehicle.TollFreeVehicles;
-        } // Vad gör detta behöver troligen bara retunera sant eller falskt inte en massa siffror eller fordon.
+            return vehicle.IsTollFreeVehicle;
+        }
 
         public int GetTollFee(DateTime date, IVehicle vehicle)
         {
-            if (IsTollFreeDate(date) || IsTollFreeVehicle(vehicle)) return 0;
+            if (IsTollFreeDate(date) || TollFreeVehicle(vehicle)) return 0;
 
             int hour = date.Hour;
             int minute = date.Minute;

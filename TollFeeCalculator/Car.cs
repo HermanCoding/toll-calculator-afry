@@ -8,7 +8,7 @@ namespace TollFeeCalculator
         private bool _tollFree = false;
 
         public string VehicleType => _name;
-        public bool TollFreeVehicles
+        public bool IsTollFreeVehicle
         {
             get => _tollFree;
             set => _tollFree = value;
