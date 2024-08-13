@@ -72,15 +72,15 @@ namespace TollFeeCalculator
 
             if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) return true;
 
-            if (year == 2013) // Ändra så att året är för korrekt år. Hämta från en API!!!
+            if (year == 2024) // Denna funktion borde vara kopplad till en API.
             {
                 if (month == 1 && day == 1 ||
-                    month == 3 && (day == 28 || day == 29) ||
-                    month == 4 && (day == 1 || day == 30) ||
-                    month == 5 && (day == 1 || day == 8 || day == 9) ||
-                    month == 6 && (day == 5 || day == 6 || day == 21) ||
-                    month == 7 ||
-                    month == 11 && day == 1 ||
+                    month == 1 && day == 6 ||
+                    month == 3 && (day == 29 || day == 31) ||
+                    month == 4 && day == 1 ||
+                    month == 5 && (day == 1 || day == 9 || day == 19) ||
+                    month == 6 && (day == 6 || day == 21 || day == 22) ||
+                    month == 11 && day == 2 ||
                     month == 12 && (day == 24 || day == 25 || day == 26 || day == 31))
                 {
                     return true;
@@ -88,15 +88,5 @@ namespace TollFeeCalculator
             }
             return false;
         }
-
-    //    private enum TollFreeVehicles
-    //    {
-    //        Motorbike = 0,
-    //        Tractor = 1,
-    //        Emergency = 2,
-    //        Diplomat = 3,
-    //        Foreign = 4,
-    //        Military = 5
-    //    } // Behövs detta?? Kan jag lägga in detta i en klass fordon istället och varje fordon har en variabel om den är tollfree...
     }
 }
