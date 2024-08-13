@@ -8,6 +8,11 @@ namespace TollFeeCalculator
         private string _regnumber;
         private bool _tollFree = true;
 
+        public Motorbike(string regnumber)
+        {
+            _regnumber = regnumber;
+        }
+
         public string VehicleType => _name;
         public bool IsTollFreeVehicle
         {
