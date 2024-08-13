@@ -13,7 +13,7 @@ namespace TollFeeCalculatorTest
         {
             // Arange
             TollCalculator tollCalc = new TollCalculator();
-            IVehicle car = new Car();
+            IVehicle car = new Car("bcd234");
             DateTime[] dates = {
                 new DateTime(2023, 8, 4, 6, 0, 0),
                 new DateTime(2023, 8, 4, 13, 30, 0),
