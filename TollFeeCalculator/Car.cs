@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TollFeeCalculator
+﻿namespace TollFeeCalculator
 {
     public class Car : IVehicle
     {
@@ -18,10 +16,10 @@ namespace TollFeeCalculator
             get => _tollFree;
             set => _tollFree = value;
         }
-        public string RegistrationNumber 
-        { 
-            get => _regnumber; 
-            set => _regnumber = value; 
+        public string RegistrationNumber
+        {
+            get => _regnumber;
+            set => _regnumber = value;
         }
 
         // TODO

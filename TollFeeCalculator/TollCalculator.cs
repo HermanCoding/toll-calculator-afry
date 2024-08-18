@@ -30,7 +30,7 @@ namespace TollFeeCalculator
                     if (totalFee > 0) totalFee -= tempFee;
                     if (nextFee >= tempFee) tempFee = nextFee;
                     totalFee += tempFee;
-                }  
+                }
                 else
                 {
                     totalFee += nextFee;
