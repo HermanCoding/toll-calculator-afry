@@ -70,18 +70,49 @@ namespace TollFeeCalculatorTest
         }
 
         [Fact]
-        public void GetTollFeeTest_ShouldReturn60_MultiplePassesExceedingMaxTollFee()
+        public void GetTollFeeTest_ShouldReturn60_MultiplePassesExceedingMaxTollFeeOnSingelDay()
         {
             // Arrange
             DateTime[] dates = {
-        new DateTime(2024, 8, 7, 6, 25, 0),
-        new DateTime(2024, 8, 7, 7, 30, 0),
-        new DateTime(2024, 8, 7, 8, 15, 0),
-        new DateTime(2024, 8, 7, 15, 15, 0),
-        new DateTime(2024, 8, 7, 17, 0, 0)
-    };
+                new DateTime(2024, 8, 7, 6, 25, 0),
+                new DateTime(2024, 8, 7, 7, 30, 0),
+                new DateTime(2024, 8, 7, 8, 15, 0),
+                new DateTime(2024, 8, 7, 15, 15, 0),
+                new DateTime(2024, 8, 7, 17, 0, 0)
+            };
 
             int expectedTotalFee = 60;
+
+            // Act
+            int actualTotalFee = _tollCalc.GetTollFee(_car, dates);
+
+            // Assert
+            Assert.Equal(expectedTotalFee, actualTotalFee);
+        }
+
+        [Fact]
+        public void GetTollFeeTest_ShouldReturn141_MultiplePassesOverMultipleDays()
+        {
+            // Arrange
+            DateTime[] dates = {
+                new DateTime(2024, 8, 7, 6, 25, 0), // 8
+                new DateTime(2024, 8, 7, 7, 30, 0), // 18
+                new DateTime(2024, 8, 7, 8, 15, 0), // 13
+                new DateTime(2024, 8, 7, 15, 15, 0), // 13
+                new DateTime(2024, 8, 7, 17, 0, 0), // 13
+                                                    // tot 65
+                new DateTime(2024, 8, 8, 6, 25, 0), 
+                new DateTime(2024, 8, 8, 7, 30, 0),
+                new DateTime(2024, 8, 8, 8, 15, 0),
+                new DateTime(2024, 8, 8, 15, 15, 0),
+                new DateTime(2024, 8, 8, 17, 0, 0),
+                                
+                new DateTime(2024, 8, 9, 6, 25, 0), // 8
+                new DateTime(2024, 8, 9, 8, 15, 0)  // 13
+                                                    // tot 21
+            };
+
+            int expectedTotalFee = 141;
 
             // Act
             int actualTotalFee = _tollCalc.GetTollFee(_car, dates);
