@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TollFeeCalculator
 {
@@ -11,9 +12,16 @@ namespace TollFeeCalculator
         /// <param name="vehicle">the vehicle</param>
         /// <param name="passes">date and time of all passes</param>
         /// <returns>total toll fees</returns>
-        /// 
-        public int GetTollFee(IVehicle vehicle, DateTime[] passes)
+        ///
+
+        private int MaxDailyTollFee = 60;
+        public int CalculateTollFee(IVehicle vehicle, DateTime[] passes)
         {
+            if (passes == null || passes.Length == 0)
+            {
+                return 0;
+            }
+
             DateTime firstPassThisHour = passes[0];
             DateTime currentDay = passes[0].Date;
             int totalFee = 0;
@@ -26,14 +34,14 @@ namespace TollFeeCalculator
 
                 if (pass.Date != currentDay)
                 {
-                    totalFee += Math.Min(dayFee + activeFee, 60);
+                    totalFee += CalculateDayFee(dayFee, activeFee);
                     dayFee = 0;
                     activeFee = 0;
                     currentDay = pass.Date;
                     firstPassThisHour = pass;
                 }
 
-                if ((pass - firstPassThisHour).TotalMinutes > 60)
+                if ((pass - firstPassThisHour).TotalMinutes > MaxDailyTollFee)
                 {
                     dayFee += activeFee;
                     activeFee = nextFee;
@@ -44,8 +52,12 @@ namespace TollFeeCalculator
                     activeFee = Math.Max(activeFee, nextFee);
                 }
             }
-            totalFee += Math.Min(dayFee + activeFee, 60);
+            totalFee += CalculateDayFee(dayFee, activeFee);
             return totalFee;
+        }
+        private int CalculateDayFee(int dayFee, int activeFee)
+        {
+            return Math.Min(dayFee + activeFee, MaxDailyTollFee);
         }
 
         private bool TollFreeVehicle(IVehicle vehicle)
@@ -55,11 +67,12 @@ namespace TollFeeCalculator
 
         private int GetTollFee(DateTime date, IVehicle vehicle)
         {
-            if (IsTollFreeDate(date) || TollFreeVehicle(vehicle)) return 0;
+            TollFreeDate _tollFreeDate = new TollFreeDate(date);
+            if (_tollFreeDate.IsTollFree || TollFreeVehicle(vehicle)) return 0;
 
             TimeSpan time = date.TimeOfDay;
 
-            foreach (TimeInterval timeInterval in timeIntervals)
+            foreach (TimeInterval timeInterval in _timeIntervals)
             {
                 if (timeInterval.IsWithinInterval(time))
                     return timeInterval.Fee;
@@ -67,8 +80,8 @@ namespace TollFeeCalculator
             return 0;
         }
 
-        private readonly List<TimeInterval> timeIntervals = new List<TimeInterval>
-        {
+        private readonly List<TimeInterval> _timeIntervals =
+        [
             new TimeInterval(new TimeSpan(6, 0, 0), new TimeSpan(6, 29, 59), 8),
             new TimeInterval(new TimeSpan(6, 30, 0), new TimeSpan(6, 59, 59), 13),
             new TimeInterval(new TimeSpan(7, 0, 0), new TimeSpan(7, 59, 59), 18),
@@ -78,31 +91,6 @@ namespace TollFeeCalculator
             new TimeInterval(new TimeSpan(15, 30, 0), new TimeSpan(16, 59, 59), 18),
             new TimeInterval(new TimeSpan(17, 0, 0), new TimeSpan(17, 59, 59), 13),
             new TimeInterval(new TimeSpan(18, 0, 0), new TimeSpan(18, 29, 59), 8),
-        };
-
-        private bool IsTollFreeDate(DateTime date) // Denna funktion borde vara kopplad till ett API.
-        {
-            int year = date.Year;
-            int month = date.Month;
-            int day = date.Day;
-
-            if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) return true;
-
-            if (year == 2024)
-            {
-                if (month == 1 && day == 1 ||
-                    month == 1 && day == 6 ||
-                    month == 3 && (day == 29 || day == 31) ||
-                    month == 4 && day == 1 ||
-                    month == 5 && (day == 1 || day == 9 || day == 19) ||
-                    month == 6 && (day == 6 || day == 21 || day == 22) ||
-                    month == 11 && day == 2 ||
-                    month == 12 && (day == 24 || day == 25 || day == 26 || day == 31))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        ];
     }
 }

@@ -10,7 +10,5 @@
             get => _tollFree;
             set => _tollFree = value;
         }
-        // TODO
-
     }
 }

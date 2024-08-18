@@ -10,8 +10,5 @@
             get => _tollFree;
             set => _tollFree = value;
         }
-
-        // TODO
-        // public TollHistory TollHistory { get; set; } = new TollHistory();
     }
 }
