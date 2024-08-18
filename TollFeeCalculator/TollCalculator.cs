@@ -1,42 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TollFeeCalculator
 {
     public class TollCalculator
     {
-
-        /**
-         * Calculate the total toll fee for one day
-         *
-         * @param vehicle - the vehicle
-         * @param dates   - date and time of all passes on one day
-         * @return - the total toll fee for that day
-         */
-
-        public int GetTollFee(IVehicle vehicle, DateTime[] dates)
+        /// <summary>
+        /// Calculate the total toll fees for a timeperiod
+        /// </summary>
+        /// <param name="vehicle">the vehicle</param>
+        /// <param name="passes">date and time of all passes</param>
+        /// <returns>total toll fees</returns>
+        /// 
+        public int GetTollFee(IVehicle vehicle, DateTime[] passes)
         {
-            DateTime intervalStart = dates[0]; // Första posten i en lista dates
+            DateTime firstPassThisHour = passes[0];
+            DateTime currentDay = passes[0].Date;
             int totalFee = 0;
-            foreach (DateTime date in dates)
+            int dayFee = 0;
+            int activeFee = 0;
+
+            foreach (DateTime pass in passes)
             {
-                int nextFee = GetTollFee(date, vehicle);
-                int tempFee = GetTollFee(intervalStart, vehicle);
+                int nextFee = GetTollFee(pass, vehicle);
 
-                TimeSpan diff = date - intervalStart;
-                long minutes = (long)diff.TotalMinutes; // refaktorera detta ?? minutes är alltid 0.
-
-                if (minutes <= 60)  // Det är något fel i beräkningarna här. Testen går inte igenom som tänkt.
+                if (pass.Date != currentDay)
                 {
-                    if (totalFee > 0) totalFee -= tempFee;
-                    if (nextFee >= tempFee) tempFee = nextFee;
-                    totalFee += tempFee;
+                    totalFee += Math.Min(dayFee + activeFee, 60);
+                    dayFee = 0;
+                    activeFee = 0;
+                    currentDay = pass.Date;
+                    firstPassThisHour = pass;
+                }
+
+                if ((pass - firstPassThisHour).TotalMinutes > 60)
+                {
+                    dayFee += activeFee;
+                    activeFee = nextFee;
+                    firstPassThisHour = pass;
                 }
                 else
                 {
-                    totalFee += nextFee;
+                    activeFee = Math.Max(activeFee, nextFee);
                 }
             }
-            if (totalFee > 60) totalFee = 60;
+            totalFee += Math.Min(dayFee + activeFee, 60);
             return totalFee;
         }
 
@@ -49,20 +57,28 @@ namespace TollFeeCalculator
         {
             if (IsTollFreeDate(date) || TollFreeVehicle(vehicle)) return 0;
 
-            int hour = date.Hour;
-            int minute = date.Minute;
+            TimeSpan time = date.TimeOfDay;
 
-            if (hour == 6 && minute >= 0 && minute <= 29) return 8;
-            else if (hour == 6 && minute >= 30 && minute <= 59) return 13;
-            else if (hour == 7 && minute >= 0 && minute <= 59) return 18;
-            else if (hour == 8 && minute >= 0 && minute <= 29) return 13;
-            else if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59) return 8;
-            else if (hour == 15 && minute >= 0 && minute <= 29) return 13;
-            else if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59) return 18;
-            else if (hour == 17 && minute >= 0 && minute <= 59) return 13;
-            else if (hour == 18 && minute >= 0 && minute <= 29) return 8;
-            else return 0; // gör om detta så att allt blir intrevall och jag kan ändra både tid och kostnad enkelt.
+            foreach (TimeInterval timeInterval in timeIntervals)
+            {
+                if (timeInterval.IsWithinInterval(time))
+                    return timeInterval.Fee;
+            }
+            return 0;
         }
+
+        private readonly List<TimeInterval> timeIntervals = new List<TimeInterval>
+        {
+            new TimeInterval(new TimeSpan(6, 0, 0), new TimeSpan(6, 29, 59), 8),
+            new TimeInterval(new TimeSpan(6, 30, 0), new TimeSpan(6, 59, 59), 13),
+            new TimeInterval(new TimeSpan(7, 0, 0), new TimeSpan(7, 59, 59), 18),
+            new TimeInterval(new TimeSpan(8, 0, 0), new TimeSpan(8, 29, 59), 13),
+            new TimeInterval(new TimeSpan(8, 30, 0), new TimeSpan(14, 59, 59), 8),
+            new TimeInterval(new TimeSpan(15, 0, 0), new TimeSpan(15, 29, 59), 13),
+            new TimeInterval(new TimeSpan(15, 30, 0), new TimeSpan(16, 59, 59), 18),
+            new TimeInterval(new TimeSpan(17, 0, 0), new TimeSpan(17, 59, 59), 13),
+            new TimeInterval(new TimeSpan(18, 0, 0), new TimeSpan(18, 29, 59), 8),
+        };
 
         private bool IsTollFreeDate(DateTime date)
         {
