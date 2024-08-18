@@ -17,9 +17,9 @@ namespace TollFeeCalculatorTest
         {
             // Arange
             DateTime[] dates = {
-                new DateTime(2024, 8, 4, 6, 0, 0),
-                new DateTime(2024, 8, 4, 13, 30, 0),
-                new DateTime(2024, 8, 4, 18, 00, 0)
+                new DateTime(2024, 8, 7, 6, 0, 0),
+                new DateTime(2024, 8, 7, 13, 30, 0),
+                new DateTime(2024, 8, 7, 18, 00, 0)
             };
 
             int expectedTotalFee = 24;
