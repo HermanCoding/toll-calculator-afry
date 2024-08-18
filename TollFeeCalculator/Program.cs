@@ -6,8 +6,8 @@ namespace TollFeeCalculator
     {
         static void Main(string[] args)
         {
-            IVehicle car = new Car("abc123");
-            IVehicle motorbike = new Motorbike("bcd123");
+            IVehicle car = new Car();
+            IVehicle motorbike = new Motorbike();
 
             DateTime[] dates = {
             new DateTime(2024, 8, 5, 6, 0, 0),

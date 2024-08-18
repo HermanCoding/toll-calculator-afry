@@ -4,12 +4,12 @@ namespace TollFeeCalculatorTest
 {
     public class TollCalculatorTest
     {
-        private readonly TollCalculator tollCalc;
-        private readonly IVehicle car;
+        private readonly TollCalculator _tollCalc;
+        private readonly IVehicle _car;
         public TollCalculatorTest()
         {
-            tollCalc = new TollCalculator();
-            car = new Car("bcd234");
+            _tollCalc = new TollCalculator();
+            _car = new Car();
         }
 
         [Fact]
@@ -25,7 +25,25 @@ namespace TollFeeCalculatorTest
             int expectedTotalFee = 24;
 
             // Act
-            int actualTotalFee = tollCalc.GetTollFee(car, dates);
+            int actualTotalFee = _tollCalc.GetTollFee(_car, dates);
+
+            // Assert
+            Assert.Equal(expectedTotalFee, actualTotalFee);
+        }
+
+        [Fact]
+        public void GetTollFeeTest_ShouldReturn13_HighestFeeWithinTheHour()
+        {
+            // Arange
+            DateTime[] dates = {
+                new DateTime(2024, 8, 7, 6, 25, 0),
+                new DateTime(2024, 8, 7, 7, 15, 0)
+            };
+
+            int expectedTotalFee = 13;
+
+            // Act
+            int actualTotalFee = _tollCalc.GetTollFee(_car, dates);
 
             // Assert
             Assert.Equal(expectedTotalFee, actualTotalFee);
@@ -46,7 +64,7 @@ namespace TollFeeCalculatorTest
                 new DateTime(2024,5,19)
             };
             // Act
-            int actualTotalFee = tollCalc.GetTollFee(car, dates);
+            int actualTotalFee = _tollCalc.GetTollFee(_car, dates);
             // Assert
             Assert.Equal(0, actualTotalFee);
         }
