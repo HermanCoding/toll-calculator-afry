@@ -53,7 +53,7 @@ namespace TollFeeCalculator
             return vehicle.IsTollFreeVehicle;
         }
 
-        public int GetTollFee(DateTime date, IVehicle vehicle)
+        private int GetTollFee(DateTime date, IVehicle vehicle)
         {
             if (IsTollFreeDate(date) || TollFreeVehicle(vehicle)) return 0;
 
@@ -80,7 +80,7 @@ namespace TollFeeCalculator
             new TimeInterval(new TimeSpan(18, 0, 0), new TimeSpan(18, 29, 59), 8),
         };
 
-        private bool IsTollFreeDate(DateTime date)
+        private bool IsTollFreeDate(DateTime date) // Denna funktion borde vara kopplad till ett API.
         {
             int year = date.Year;
             int month = date.Month;
@@ -88,7 +88,7 @@ namespace TollFeeCalculator
 
             if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) return true;
 
-            if (year == 2024) // Denna funktion borde vara kopplad till en API.
+            if (year == 2024)
             {
                 if (month == 1 && day == 1 ||
                     month == 1 && day == 6 ||
