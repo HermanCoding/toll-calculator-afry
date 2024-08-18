@@ -37,7 +37,7 @@ namespace TollFeeCalculatorTest
             // Arange
             DateTime[] dates = {
                 new DateTime(2024, 8, 7, 6, 25, 0),
-                new DateTime(2024, 8, 7, 7, 15, 0)
+                new DateTime(2024, 8, 7, 6, 30, 0)
             };
 
             int expectedTotalFee = 13;
@@ -67,6 +67,27 @@ namespace TollFeeCalculatorTest
             int actualTotalFee = _tollCalc.GetTollFee(_car, dates);
             // Assert
             Assert.Equal(0, actualTotalFee);
+        }
+
+        [Fact]
+        public void GetTollFeeTest_ShouldReturn60_MultiplePassesExceedingMaxTollFee()
+        {
+            // Arrange
+            DateTime[] dates = {
+        new DateTime(2024, 8, 7, 6, 25, 0),
+        new DateTime(2024, 8, 7, 7, 30, 0),
+        new DateTime(2024, 8, 7, 8, 15, 0),
+        new DateTime(2024, 8, 7, 15, 15, 0),
+        new DateTime(2024, 8, 7, 17, 0, 0)
+    };
+
+            int expectedTotalFee = 60;
+
+            // Act
+            int actualTotalFee = _tollCalc.GetTollFee(_car, dates);
+
+            // Assert
+            Assert.Equal(expectedTotalFee, actualTotalFee);
         }
     }
 }
