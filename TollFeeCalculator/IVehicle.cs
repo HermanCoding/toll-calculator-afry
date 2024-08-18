@@ -2,11 +2,8 @@
 {
     public interface IVehicle
     {
-        string RegistrationNumber { get; set; }
+        // String RegistrationNumber();  // Bör kanske hämta ett registreringsnummer så man kan göra varje bil unik i en databas?
         string VehicleType { get; }
         bool IsTollFreeVehicle { get; set; }
-
-        // String RegistrationNumber();  // Bör kanske hämta en registreringsnummer så man kan göra varje bil unik?
-        // DateTime HigestExpanseWithinTheHour(); //  Kanske skall implementera detta.
     }
 }
